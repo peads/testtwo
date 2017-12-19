@@ -345,7 +345,7 @@ class TtCli
 				verbose = true
 			end
 			
-			gcc = (Config::CONFIG['host_os'] =~ /mswin|mingw/ ? nil : gcc)
+			gcc = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw/ ? nil : gcc)
 			parseFilePaths(new_args, verbose, outpath, gcc, range)
 			
 			if matlab then
