@@ -1,0 +1,6 @@
+times	cars	speed	12	fibe
+night	Mazda	slow	1	1
+day	Ford	fast	2	2
+dawn	BMW	medium	3	3
+1	2	3	4	5
+f	a	y	5	7

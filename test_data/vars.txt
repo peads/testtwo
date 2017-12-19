@@ -1,0 +1,6 @@
+colors	times	cars	speed
+purple	night	Mazda	slow
+blue	day	Ford	fast
+yellow	dawn	BMW	
+red			
+orange			

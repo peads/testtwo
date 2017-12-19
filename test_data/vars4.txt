@@ -1,0 +1,4 @@
+times	cars
+night	Mazda
+day	Ford
+	BMW

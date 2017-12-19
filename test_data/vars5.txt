@@ -1,0 +1,4 @@
+times	cars	num	bool
+night	Mazda	1	true
+day	Ford	2	false
+	BMW	3	mazbe

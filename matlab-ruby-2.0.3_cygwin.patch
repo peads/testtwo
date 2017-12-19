@@ -1,0 +1,36 @@
+diff -ru matlab-ruby-2.0.3.orig/ext/matlab_api/extconf.rb matlab-ruby-2.0.3/ext/matlab_api/extconf.rb
+--- matlab-ruby-2.0.3.orig/ext/matlab_api/extconf.rb	2008-05-20 00:01:36.000000000 +0900
++++ matlab-ruby-2.0.3/ext/matlab_api/extconf.rb	2010-03-16 16:28:51.265625000 +0900
+@@ -5,7 +5,26 @@
+ 
+ matlab_dirs = dir_config( "matlab", "/usr/local/matlab/extern/include", "/usr/local/matlab/bin/glnx86" )
+ 
+-if have_header( "engine.h" ) && have_library( "eng", "engOpen" )
++MATLAB_DIR = "/cygdrive/c/Program Files/MATLAB/extern"
++
++if MATLAB_DIR then
++  # make import library for cygwin
++  def run_c(command)
++    puts command
++    system "cd \"#{MATLAB_DIR}/lib\" && #{command}"
++  end
++  [:eng, :mx].each{|l|
++    run_c("echo EXPORTS > #{l}.def")
++    run_c("nm win32/microsoft/lib#{l}.lib | sed -n -e\"s/.* T _//p\" >> #{l}.def")
++    run_c("dlltool --kill-at --def #{l}.def --dllname lib#{l}.dll --output-lib lib#{l}.a")
++  }
++
++  # handle directory
++  dir_config("config", MATLAB_DIR)
++  matlab_dirs << "\"#{MATLAB_DIR}/include\""
++end
++
++if have_header( "engine.h" ) && have_library( "eng", "engOpen" ) && have_library("mx", "mxIsNaN")
+   if !File.exists?( SWIG_WRAP ) || with_config( "swig", false )
+     swig_includes = (matlab_dirs.any? ? (matlab_dirs.collect { |dir| "-I#{dir}" }.join(" ")) : nil)
+     puts "creating #{SWIG_WRAP}"
+@@ -13,3 +32,4 @@
+   end
+   create_makefile( "matlab_api" )
+ end
++
